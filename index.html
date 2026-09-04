@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deine Taufe ✨</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      text-align: center;
+      overflow: hidden; /* Verhindert Scrollbars während der Animation */
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px 25px;
+      max-width: 450px;
+      width: 100%;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      position: relative;
+      z-index: 10;
+      animation: fadeIn 1.5s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 5px;
+      color: #22b14c; /* Flexstore Grün */
+    }
+    p.baptism-date {
+      font-size: 1rem;
+      color: #a0a0a0;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+    p.sub {
+      font-size: 1rem;
+      color: #e0e0e0;
+      margin-bottom: 30px;
+    }
+    .verse-box {
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 30px;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      border-radius: 12px;
+    }
+    .verse-text {
+      font-size: 1.1rem;
+      font-style: italic;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+    .verse-ref {
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: #22b14c;
+    }
+    button {
+      background-color: #22b14c;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(34, 177, 76, 0.4);
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(34, 177, 76, 0.6);
+    }
+    /* Konfetti CSS Animation */
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #f2d74e;
+      opacity: 0;
+      animation: confettiRain 4s ease-out infinite;
+      z-index: 1;
+    }
+    @keyframes confettiRain {
+      0% { opacity: 1; transform: translateY(-100vh) rotate(0deg); }
+      100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="confetti-container"></div>
+
+  <div class="card">
+    <h1 id="greeting">Hallo! 👋</h1>
+    <p class="baptism-date" id="date">Zur heiligen Taufe</p>
+    <p class="sub">Schön, dass du hier bist. Drücke auf den Button für deine Inspiration des Tages.</p>
+
+    <div class="verse-box">
+      <div class="verse-text" id="verse">"Gott ist unsere Zuflucht und Stärke, ein geprüfter Helfer in Zeiten der Not."</div>
+      <div class="verse-ref" id="ref">Psalm 46,2</div>
+    </div>
+
+    <button onclick="neuerVers()">Bibelvers ziehen ✨</button>
+  </div>
+
+  <script>
+    // 1. Daten aus der URL auslesen
+    const urlParams = new URLSearchParams(window.location.search);
+    const nameParam = urlParams.get('name');
+    const dateParam = urlParams.get('datum');
+    
+    if (nameParam) {
+      document.getElementById('greeting').innerText = 'Hallo ' + nameParam + '! 👋';
+    }
+    if (dateParam) {
+      document.getElementById('date').innerText = 'Zur heiligen Taufe am ' + dateParam;
+    }
+
+    // 2. Konfetti Animation starten
+    function createConfetti() {
+      const container = document.getElementById('confetti-container');
+      const colors = ['#f2d74e', '#95c3de', '#ff9a91', '#22b14c', '#a0e8af'];
+      
+      for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        
+        // Zufällige Position, Farbe und Verzögerung
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDelay = Math.random() * 2 + 's';
+        
+        container.appendChild(confetti);
+      }
+    }
+    window.onload = createConfetti; // Animation beim Laden starten
+
+    // 3. Bibelvers Logik
+    const verseListe = [
+      { text: "Gott ist unsere Zuflucht und Stärke, ein geprüfter Helfer in Zeiten der Not.", ref: "Psalm 46,2" },
+      { text: "Denn ich weiß wohl, was für Gedanken ich über euch habe, spricht der HERR: Gedanken des Friedens und nicht des Leides.", ref: "Jeremia 29,11" },
+      { text: "Der HERR ist mein Hirte, mir wird nichts mangeln.", ref: "Psalm 23,1" },
+      { text: "Alle eure Dinge lasst in der Liebe geschehen!", ref: "1. Korinther 16,14" },
+      { text: "Sei getrost und unverzagt! Lass dir nicht grauen und entsetze dich nicht; denn der HERR, dein Gott, ist mit dir in allem, was du tun wirst.", ref: "Joshua 1,9" },
+      { text: "Die Freude am HERRN ist eure Stärke.", ref: "Nehemia 8,10" },
+      { text: "Ein neues Gebot gebe ich euch, dass ihr euch untereinander liebt, wie ich euch geliebt habe.", ref: "Johannes 13,34" },
+      { text: "Befiehl dem HERRN deine Wege und hoffe auf ihn, er wird's wohlmachen.", ref: "Psalm 37,5" }
+    ];
+
+    function neuerVers() {
+      const zufall = Math.floor(Math.random() * verseListe.length);
+      document.getElementById('verse').innerText = '"' + verseListe[zufall].text + '"';
+      document.getElementById('ref').innerText = verseListe[zufall].ref;
+    }
+  </script>
+
+</body>
+</html>
