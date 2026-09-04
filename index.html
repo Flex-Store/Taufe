@@ -37,12 +37,29 @@
       animation: cardAppear 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       position: relative;
     }
-    /* Einfliegende Taube Animation */
+    /* Interaktive Taube Animation */
     .dove-container {
-      font-size: 55px;
+      font-size: 60px;
       margin-bottom: 10px;
       display: inline-block;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
       animation: flyIn 1.8s cubic-bezier(0.25, 1, 0.5, 1) forwards, gentleFloat 4s ease-in-out infinite 1.8s;
+      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .dove-container:hover {
+      transform: scale(1.15) rotate(5deg);
+    }
+    .dove-container:active {
+      transform: scale(0.9) rotate(-10deg);
+    }
+    .tap-hint {
+      font-size: 12px;
+      color: #718096;
+      margin-bottom: 15px;
+      font-weight: 400;
+      letter-spacing: 0.5px;
     }
     h1 {
       font-family: 'Cormorant Garamond', serif;
@@ -56,7 +73,7 @@
       color: #718096;
       text-transform: uppercase;
       letter-spacing: 1.5px;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
       font-weight: 600;
     }
     .name {
@@ -65,7 +82,7 @@
       color: #2b6cb0;
       font-weight: 600;
       font-style: italic;
-      margin-bottom: 15px;
+      margin-bottom: 12px;
     }
     .date-badge {
       background: rgba(255, 255, 255, 0.8);
@@ -82,45 +99,31 @@
     .verse-box {
       background: rgba(255, 255, 255, 0.9);
       border-radius: 16px;
-      padding: 20px;
-      margin-top: 10px;
+      padding: 22px 20px;
+      margin-top: 5px;
       box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
-      transition: all 0.3s ease;
+      transition: transform 0.3s ease, opacity 0.3s ease;
     }
     .verse-text {
       font-family: 'Cormorant Garamond', serif;
       font-size: 20px;
       color: #2d3748;
       font-style: italic;
-      line-height: 1.4;
-      margin-bottom: 8px;
-      min-height: 60px;
+      line-height: 1.45;
+      margin-bottom: 10px;
+      min-height: 65px;
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: opacity 0.3s ease;
     }
     .verse-ref {
       font-size: 13px;
-      color: #718096;
+      color: #3182ce;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 1px;
-    }
-    .btn {
-      background: linear-gradient(135deg, #4299e1 0%, #3182ce 100%);
-      color: white;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 15px;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      box-shadow: 0 4px 12px rgba(49, 130, 206, 0.3);
-    }
-    .btn:active {
-      transform: scale(0.97);
+      transition: opacity 0.3s ease;
     }
 
     /* Keyframe Animationen */
@@ -147,18 +150,18 @@
 <body>
 
   <div class="card">
-    <div class="dove-container">🕊️</div>
+    <div class="dove-container" onclick="nextVerse()" title="Klicke auf die Taube für einen neuen Vers">🕊️</div>
+    <div class="tap-hint">✨ Tippe auf die Taube für einen Bibelvers</div>
+    
     <h1>Glückwunsch zur Taufe</h1>
     <div class="subtitle">Segen für</div>
     <div class="name" id="nameDisplay">Estera</div>
     <div class="date-badge" id="dateDisplay">20. September 2026</div>
 
-    <div class="verse-box">
+    <div class="verse-box" id="verseBox">
       <div class="verse-text" id="verseText">„Gott hat seinen Engeln befohlen, dass sie dich behüten auf allen deinen Wegen.“</div>
       <div class="verse-ref" id="verseRef">Psalm 91,11</div>
     </div>
-
-    <button class="btn" onclick="nextVerse()">✨ Neuer Bibelvers</button>
   </div>
 
   <script>
@@ -190,7 +193,7 @@
       { text: "Suche deine Freude am Herrn, so wird er dir geben, was dein Herz begehrt.", ref: "Psalm 37,4" },
       { text: "Wo du hingehst, da will auch ich hingehen; wo du bleibst, da bleibe ich auch.", ref: "Rut 1,16" },
       { text: "Meine Zeit steht in deinen Händen.", ref: "Psalm 31,16" },
-      { text: "Er wird seinen Engeln befehlen, dich zu behüten auf allen deinen Wegen.", ref: "Luke 4,10" },
+      { text: "Er wird seinen Engeln befehlen, dich zu behüten auf allen deinen Wegen.", ref: "Lukas 4,10" },
       { text: "Lass deine Güte über uns sein, wie wir auf dich hoffen.", ref: "Psalm 33,22" },
       { text: "Gott ist die Liebe, und wer in der Liebe bleibt, bleibt in Gott.", ref: "1. Johannes 4,16" },
       { text: "Der Herr behüte deinen Ausgang und Eingang von nun an bis in Ewigkeit.", ref: "Psalm 121,8" }
@@ -208,21 +211,21 @@
       document.getElementById('dateDisplay').innerText = datumParam;
     }
 
-    // Funktion für den Vers-Wechsel mit sanftem Effekt
+    // Wechselt den Bibelvers beim Klick auf die Taube mit sanfter Überblendung
     function nextVerse() {
       const randomIndex = Math.floor(Math.random() * verses.length);
       const verseText = document.getElementById('verseText');
       const verseRef = document.getElementById('verseRef');
 
-      verseText.style.opacity = 0;
-      verseRef.style.opacity = 0;
+      verseText.style.opacity = '0';
+      verseRef.style.opacity = '0';
 
       setTimeout(() => {
         verseText.innerText = "„" + verses[randomIndex].text + "“";
         verseRef.innerText = verses[randomIndex].ref;
-        verseText.style.opacity = 1;
-        verseRef.style.opacity = 1;
-      }, 200);
+        verseText.style.opacity = '1';
+        verseRef.style.opacity = '1';
+      }, 250);
     }
 
     // Konfetti-Effekt beim Laden der Seite
