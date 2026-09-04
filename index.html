@@ -2,170 +2,264 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Glückwunsch zur Taufe</title>
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      -webkit-tap-highlight-color: transparent;
     }
     body {
-      background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+      background: linear-gradient(180deg, #e0c3fc 0%, #8ec5fc 50%, #f5f7fa 100%);
       font-family: 'Plus Jakarta Sans', sans-serif;
       min-height: 100vh;
       display: flex;
       justify-content: center;
-      align-items: center;
-      padding: 20px;
+      align-items: flex-start;
+      padding: 15px;
       color: #2d3748;
-      overflow-x: hidden;
+    }
+    .wrapper {
+      width: 100%;
+      max-width: 440px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
     .card {
-      background: rgba(255, 255, 255, 0.75);
+      background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      padding: 40px 30px;
+      padding: 30px 20px;
       border-radius: 24px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.08);
       text-align: center;
-      max-width: 480px;
-      width: 100%;
-      border: 1px solid rgba(255, 255, 255, 0.6);
-      animation: cardAppear 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      animation: cardAppear 0.8s ease-out forwards;
     }
-    /* Interaktive Taube Animation */
     .dove-container {
-      font-size: 60px;
-      margin-bottom: 10px;
+      font-size: 55px;
+      margin-bottom: 5px;
       display: inline-block;
       cursor: pointer;
       user-select: none;
-      -webkit-tap-highlight-color: transparent;
-      animation: flyIn 1.8s cubic-bezier(0.25, 1, 0.5, 1) forwards, gentleFloat 4s ease-in-out infinite 1.8s;
-      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-    .dove-container:hover {
-      transform: scale(1.15) rotate(5deg);
+      animation: flyIn 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards, gentleFloat 4s ease-in-out infinite 1.5s;
     }
     .dove-container:active {
-      transform: scale(0.9) rotate(-10deg);
+      transform: scale(0.88);
     }
     .tap-hint {
-      font-size: 12px;
+      font-size: 11px;
       color: #718096;
-      margin-bottom: 15px;
-      font-weight: 400;
+      margin-bottom: 12px;
       letter-spacing: 0.5px;
     }
     h1 {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 32px;
+      font-size: 28px;
       color: #1a202c;
-      margin-bottom: 6px;
-      letter-spacing: 0.5px;
+      margin-bottom: 4px;
     }
     .subtitle {
-      font-size: 15px;
+      font-size: 13px;
       color: #718096;
       text-transform: uppercase;
       letter-spacing: 1.5px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       font-weight: 600;
     }
     .name {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 38px;
+      font-size: 34px;
       color: #2b6cb0;
       font-weight: 600;
       font-style: italic;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     .date-badge {
-      background: rgba(255, 255, 255, 0.8);
-      padding: 8px 18px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 6px 16px;
       border-radius: 20px;
       display: inline-block;
-      font-size: 14px;
+      font-size: 13px;
       color: #4a5568;
       font-weight: 600;
-      margin-bottom: 25px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      margin-bottom: 16px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
     }
-    /* Bibelvers-Sektion */
+    .blessing-text {
+      font-size: 14px;
+      line-height: 1.55;
+      color: #2d3748;
+      margin-bottom: 18px;
+      padding: 0 5px;
+    }
     .verse-box {
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.92);
       border-radius: 16px;
-      padding: 22px 20px;
-      margin-top: 5px;
+      padding: 18px 15px;
       box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
-      transition: transform 0.3s ease, opacity 0.3s ease;
     }
     .verse-text {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 20px;
+      font-size: 18px;
       color: #2d3748;
       font-style: italic;
-      line-height: 1.45;
-      margin-bottom: 10px;
-      min-height: 65px;
+      line-height: 1.4;
+      margin-bottom: 8px;
+      min-height: 50px;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.25s ease;
     }
     .verse-ref {
-      font-size: 13px;
+      font-size: 12px;
       color: #3182ce;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 1px;
-      transition: opacity 0.3s ease;
+      transition: opacity 0.25s ease;
     }
 
-    /* Keyframe Animationen */
+    /* Jesus Bild Sektion */
+    .jesus-section {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(16px);
+      border-radius: 24px;
+      padding: 20px 15px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+    }
+    .jesus-img {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+      margin-bottom: 12px;
+    }
+    .jesus-caption {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-style: italic;
+      color: #4a5568;
+    }
+
+    /* Namensbedeutung Sektion */
+    .meaning-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(16px);
+      border-radius: 24px;
+      padding: 22px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+    }
+    .meaning-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      color: #1a202c;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .meaning-text {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #4a5568;
+      text-align: left;
+    }
+    .bible-ref-badge {
+      display: inline-block;
+      background: #ebf8ff;
+      color: #2b6cb0;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 8px;
+      margin-top: 8px;
+    }
+
     @keyframes flyIn {
-      0% {
-        opacity: 0;
-        transform: translate(-150px, -100px) scale(0.3) rotate(-20deg);
-      }
-      100% {
-        opacity: 1;
-        transform: translate(0, 0) scale(1) rotate(0deg);
-      }
+      0% { opacity: 0; transform: translate(-100px, -80px) scale(0.3) rotate(-20deg); }
+      100% { opacity: 1; transform: translate(0, 0) scale(1) rotate(0deg); }
     }
     @keyframes gentleFloat {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
+      50% { transform: translateY(-6px); }
     }
     @keyframes cardAppear {
-      0% { opacity: 0; transform: translateY(20px); }
+      0% { opacity: 0; transform: translateY(15px); }
       100% { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
 
-  <div class="card">
-    <div class="dove-container" onclick="nextVerse()" title="Klicke auf die Taube für einen neuen Vers">🕊️</div>
-    <div class="tap-hint">✨ Tippe auf die Taube für einen Bibelvers</div>
-    
-    <h1>Glückwunsch zur Taufe</h1>
-    <div class="subtitle">Segen für</div>
-    <div class="name" id="nameDisplay">Estera</div>
-    <div class="date-badge" id="dateDisplay">20. September 2026</div>
+  <div class="wrapper">
+    <div class="card">
+      <div class="dove-container" onclick="nextVerse()" title="Klicke auf die Taube">🕊️</div>
+      <div class="tap-hint">✨ Tippe auf die Taube für einen neuen Vers</div>
+      
+      <h1>Glückwunsch zur Taufe</h1>
+      <div class="subtitle">Segen für</div>
+      <div class="name" id="nameDisplay">Estera</div>
+      <div class="date-badge" id="dateDisplay">20. September 2026</div>
 
-    <div class="verse-box" id="verseBox">
-      <div class="verse-text" id="verseText">„Gott hat seinen Engeln befohlen, dass sie dich behüten auf allen deinen Wegen.“</div>
-      <div class="verse-ref" id="verseRef">Psalm 91,11</div>
+      <div class="blessing-text" id="blessingDisplay">
+        Möge der Heilige Geist dein Herz stets mit Seinem göttlichen Licht, Seiner Weisheit und Seiner unerschütterlichen Freude erfüllen.
+      </div>
+
+      <div class="verse-box">
+        <div class="verse-text" id="verseText">„Gott hat seinen Engeln befohlen, dass sie dich behüten auf allen deinen Wegen.“</div>
+        <div class="verse-ref" id="verseRef">Psalm 91,11</div>
+      </div>
+    </div>
+
+    <div class="meaning-card">
+      <div class="meaning-title" id="meaningTitle">Die biblische Bedeutung deines Namens</div>
+      <div class="meaning-text" id="meaningContent">
+        Lade Namensbedeutung...
+      </div>
+      <div class="bible-ref-badge" id="meaningBadge">Bibelstelle</div>
+    </div>
+
+    <div class="jesus-section">
+      <img src="https://images.unsplash.com/photo-1548625149-fc4a29cf7092?auto=format&fit=crop&w=800&q=80" alt="Jesus Christus" class="jesus-img">
+      <div class="jesus-caption">„Ich bin das Licht der Welt. Wer mir nachfolgt, wird nicht in der Finsternis wandeln.“</div>
     </div>
   </div>
 
   <script>
-    // 30 Schöne Bibelverse zur Taufe
+    const blessings = {
+      "estera": "Möge der Heilige Geist dein Herz stets mit Seinem göttlichen Licht, Seiner Weisheit und Seiner unerschütterlichen Freude erfüllen. Geh mutig und voller Vertrauen durchs Leben – stets getragen von Gottes unendlicher Gnade.",
+      "jessica": "Gott segne dich reichlich an diesem besonderen Tag deines Glaubens. Mögest du als lebendiger Tempel des Heiligen Geistes heranwachsen – erfüllt mit tiefem Frieden, echter Hoffnung und tiefer Liebe.",
+      "elissa-miriam": "Auch wenn du mich nicht mehr liebst, so tut es Jesus jeden Tag und das mehr als jeder andere."
+    };
+
+    const meanings = {
+      "estera": {
+        title: "Königin Ester in der Bibel",
+        text: "Der Name Estera geht auf die biblische **Königin Ester** zurück. Im Buch Ester beschreibt die Bibel eine mutige, gottesfürchtige Frau, die ihr gesamtes Volk durch ihren starken Glauben und ihr Vertrauen auf Gott vor dem Untergang rettete. Ihr Name bedeutet 'Stern' – ein helles Licht in dunklen Zeiten.",
+        badge: "📖 Buch Ester"
+      },
+      "jessica": {
+        title: "Bedeutung von Jessica (Jiska)",
+        text: "Der Name Jessica leitet sich vom hebräischen Namen **Jiska** ab. In **1. Mose 11,29** ist Jiska die Nichte Abrahams. Der Name bedeutet übersetzt **'Gott sieht'** oder **'Gott blickt aus'**. Er erinnert daran, dass Gott sein Auge immer voller Liebe auf dich gerichtet hat und dich nie aus den Augen verliert.",
+        badge: "📖 1. Mose 11,29"
+      },
+      "elissa-miriam": {
+        title: "Prophetin Miriam & Gottes Fülle",
+        text: "Dein Doppelname trägt zwei tiefgründige biblische Erbe: **Miriam** war die prophetische Schwester von Mose und Aaron (**2. Mose 15**), die Gottes Rettung am Schilfmeer voller Freude tanzend und singend preiste. **Elissa** leitet sich von Elisheba ab und bedeutet **'Gott ist mein Schwur'** und **'Gott ist Fülle'**.",
+        badge: "📖 2. Mose 15,20 & 2. Mose 6,23"
+      }
+    };
+
     const verses = [
       { text: "Gott hat seinen Engeln befohlen, dass sie dich behüten auf allen deinen Wegen.", ref: "Psalm 91,11" },
       { text: "Der Herr ist mein Hirte, mir wird nichts mangeln.", ref: "Psalm 23,1" },
@@ -176,42 +270,43 @@
       { text: "Der Herr segne dich und behüte dich.", ref: "4. Mose 6,24" },
       { text: "Alle eure Dinge lasst in der Liebe geschehen!", ref: "1. Korinther 16,14" },
       { text: "Gott hat uns nicht gegeben den Geist der Furcht, sondern der Kraft und der Liebe und der Besonnenheit.", ref: "2. Timotheus 1,7" },
-      { text: "Lass dich nicht vom Bösen überwinden, sondern überwinde das Böse mit Gutem.", ref: "Römer 12,21" },
       { text: "Du machst mir kund den Weg zum Leben: Vor dir ist Freude die Fülle.", ref: "Psalm 16,11" },
       { text: "Ich danke dir dafür, dass ich erstaunlich wunderbar gemacht bin.", ref: "Psalm 139,14" },
       { text: "Der Herr ist mein Licht und mein Heil; vor wem sollte ich mich fürchten?", ref: "Psalm 27,1" },
-      { text: "Seid fröhlich in Hoffnung, geduldig in Trübsal, beharrlich im Gebet.", ref: "Römer 12,12" },
       { text: "Von allen Seiten umgibst du mich und hältst deine Hand über mir.", ref: "Psalm 139,5" },
       { text: "Die auf den Herrn harren, kriegen neue Kraft, dass sie auffahren mit Flügeln wie Adler.", ref: "Jesaja 40,31" },
-      { text: "Befiehl dem Herrn deine Wege und hoffe auf ihn, er wird’s wohlmachen.", ref: "Psalm 37,5" },
       { text: "Fürchte dich nicht, denn ich bin mit dir; weiche nicht, denn ich bin dein Gott.", ref: "Jesaja 41,10" },
-      { text: "Ein Mensch sieht, was vor Augen ist; der Herr aber sieht das Herz an.", ref: "1. Samuel 16,7" },
       { text: "Der Herr ist meine Stärke und mein Schild; auf ihn hofft mein Herz.", ref: "Psalm 28,7" },
       { text: "Vertraue auf den Herrn von ganzem Herzen.", ref: "Sprüche 3,5" },
-      { text: "Ich will dich nicht verlassen noch von dir weichen.", ref: "Josua 1,5" },
-      { text: "Gott ist unsere Zuversicht und Stärke, eine Hilfe in den großen Nöten.", ref: "Psalm 46,2" },
-      { text: "Suche deine Freude am Herrn, so wird er dir geben, was dein Herz begehrt.", ref: "Psalm 37,4" },
-      { text: "Wo du hingehst, da will auch ich hingehen; wo du bleibst, da bleibe ich auch.", ref: "Rut 1,16" },
-      { text: "Meine Zeit steht in deinen Händen.", ref: "Psalm 31,16" },
-      { text: "Er wird seinen Engeln befehlen, dich zu behüten auf allen deinen Wegen.", ref: "Lukas 4,10" },
-      { text: "Lass deine Güte über uns sein, wie wir auf dich hoffen.", ref: "Psalm 33,22" },
-      { text: "Gott ist die Liebe, und wer in der Liebe bleibt, bleibt in Gott.", ref: "1. Johannes 4,16" },
       { text: "Der Herr behüte deinen Ausgang und Eingang von nun an bis in Ewigkeit.", ref: "Psalm 121,8" }
     ];
 
-    // Parameter aus der URL auslesen
     const urlParams = new URLSearchParams(window.location.search);
     const nameParam = urlParams.get('name');
     const datumParam = urlParams.get('datum');
 
     if (nameParam) {
       document.getElementById('nameDisplay').innerText = nameParam;
+      const cleanName = nameParam.toLowerCase().trim();
+      
+      if (blessings[cleanName]) {
+        document.getElementById('blessingDisplay').innerText = blessings[cleanName];
+      }
+      if (meanings[cleanName]) {
+        document.getElementById('meaningTitle').innerText = meanings[cleanName].title;
+        document.getElementById('meaningContent').innerHTML = meanings[cleanName].text;
+        document.getElementById('meaningBadge').innerText = meanings[cleanName].badge;
+      }
+    } else {
+      document.getElementById('meaningTitle').innerText = meanings["estera"].title;
+      document.getElementById('meaningContent').innerHTML = meanings["estera"].text;
+      document.getElementById('meaningBadge').innerText = meanings["estera"].badge;
     }
+    
     if (datumParam) {
       document.getElementById('dateDisplay').innerText = datumParam;
     }
 
-    // Wechselt den Bibelvers beim Klick auf die Taube mit sanfter Überblendung
     function nextVerse() {
       const randomIndex = Math.floor(Math.random() * verses.length);
       const verseText = document.getElementById('verseText');
@@ -225,34 +320,16 @@
         verseRef.innerText = verses[randomIndex].ref;
         verseText.style.opacity = '1';
         verseRef.style.opacity = '1';
-      }, 250);
+      }, 200);
     }
 
-    // Konfetti-Effekt beim Laden der Seite
     window.addEventListener('load', () => {
-      const duration = 2 * 1000;
-      const animationEnd = Date.now() + duration;
-
-      (function frame() {
-        confetti({
-          particleCount: 2,
-          angle: 60,
-          spread: 55,
-          origin: { x: 0 },
-          colors: ['#8ec5fc', '#e0c3fc', '#ffffff']
-        });
-        confetti({
-          particleCount: 2,
-          angle: 120,
-          spread: 55,
-          origin: { x: 1 },
-          colors: ['#8ec5fc', '#e0c3fc', '#ffffff']
-        });
-
-        if (Date.now() < animationEnd) {
-          requestAnimationFrame(frame);
-        }
-      }());
+      confetti({
+        particleCount: 25,
+        spread: 60,
+        origin: { y: 0.7 },
+        colors: ['#8ec5fc', '#e0c3fc', '#ffffff']
+      });
     });
   </script>
 
