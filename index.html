@@ -3,178 +3,139 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> Deine Taufe ✨</title>
+  <title>Glückwunsch zur Taufe</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     body {
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: #ffffff;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      font-family: 'Montserrat', sans-serif;
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 20px;
-      text-align: center;
-      overflow: hidden; /* Verhindert Scrollbars während der Animation */
+      color: #333;
     }
     .card {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.95);
+      padding: 40px 30px;
       border-radius: 20px;
-      padding: 40px 25px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+      text-align: center;
       max-width: 450px;
       width: 100%;
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      position: relative;
-      z-index: 10;
-      animation: fadeIn 1.5s ease-out;
+      animation: fadeInUp 1.2s ease-out forwards;
+      border: 1px solid rgba(255,255,255,0.8);
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .icon {
+      font-size: 50px;
+      margin-bottom: 15px;
+      display: inline-block;
+      animation: float 3s ease-in-out infinite;
     }
     h1 {
-      font-size: 2rem;
-      margin-bottom: 5px;
-      color: #22b14c; /* Flexstore Grün */
-    }
-    p.baptism-date {
-      font-size: 1rem;
-      color: #a0a0a0;
-      margin-bottom: 20px;
-      font-weight: bold;
-    }
-    p.sub {
-      font-size: 1rem;
-      color: #e0e0e0;
-      margin-bottom: 30px;
-    }
-    .verse-box {
-      min-height: 120px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 30px;
-      background: rgba(0, 0, 0, 0.2);
-      padding: 20px;
-      border-radius: 12px;
-    }
-    .verse-text {
-      font-size: 1.1rem;
-      font-style: italic;
+      font-family: 'Cinzel', serif;
+      font-size: 26px;
+      color: #2c3e50;
       margin-bottom: 10px;
-      line-height: 1.4;
+      letter-spacing: 1px;
     }
-    .verse-ref {
-      font-size: 0.9rem;
-      font-weight: bold;
-      color: #22b14c;
+    .subtitle {
+      font-size: 16px;
+      color: #7f8c8d;
+      margin-bottom: 25px;
+      font-weight: 300;
     }
-    button {
-      background-color: #22b14c;
-      color: white;
-      border: none;
-      padding: 15px 30px;
-      font-size: 1rem;
-      font-weight: bold;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(34, 177, 76, 0.4);
+    .name {
+      font-family: 'Cinzel', serif;
+      font-size: 32px;
+      color: #3498db;
+      font-weight: 700;
+      margin: 15px 0;
+      text-transform: capitalize;
     }
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(34, 177, 76, 0.6);
+    .date-box {
+      background: #f0f4f8;
+      padding: 12px 20px;
+      border-radius: 30px;
+      display: inline-block;
+      font-size: 14px;
+      color: #555;
+      font-weight: 600;
+      margin-top: 15px;
+      letter-spacing: 0.5px;
     }
-    /* Konfetti CSS Animation */
-    .confetti {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background-color: #f2d74e;
-      opacity: 0;
-      animation: confettiRain 4s ease-out infinite;
-      z-index: 1;
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-    @keyframes confettiRain {
-      0% { opacity: 1; transform: translateY(-100vh) rotate(0deg); }
-      100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
   </style>
 </head>
 <body>
 
-  <div id="confetti-container"></div>
-
   <div class="card">
-    <h1 id="greeting">Hallo! 👋</h1>
-    <p class="baptism-date" id="date">Zur heiligen Taufe</p>
-    <p class="sub">Schön, dass du hier bist. Drücke auf den Button für deine Inspiration des Tages.</p>
-
-    <div class="verse-box">
-      <div class="verse-text" id="verse">"Gott ist unsere Zuflucht und Stärke, ein geprüfter Helfer in Zeiten der Not."</div>
-      <div class="verse-ref" id="ref">Psalm 46,2</div>
-    </div>
-
-    <button onclick="neuerVers()">Bibelvers ziehen ✨</button>
+    <div class="icon">🕊️</div>
+    <h1>Glückwunsch zur Taufe</h1>
+    <div class="subtitle">Liebe/r</div>
+    <div class="name" id="nameDisplay">Lieber Gast</div>
+    <div class="date-box" id="dateDisplay">am 20. September 2026</div>
   </div>
 
   <script>
-    // 1. Daten aus der URL auslesen
+    // Parameter aus der URL auslesen
     const urlParams = new URLSearchParams(window.location.search);
     const nameParam = urlParams.get('name');
-    const dateParam = urlParams.get('datum');
-    
+    const datumParam = urlParams.get('datum');
+
     if (nameParam) {
-      document.getElementById('greeting').innerText = 'Hallo ' + nameParam + '! 👋';
+      document.getElementById('nameDisplay').innerText = nameParam;
     }
-    if (dateParam) {
-      document.getElementById('date').innerText = 'Zur heiligen Taufe am ' + dateParam;
+    if (datumParam) {
+      document.getElementById('dateDisplay').innerText = 'am ' + datumParam;
     }
 
-    // 2. Konfetti Animation starten
-    function createConfetti() {
-      const container = document.getElementById('confetti-container');
-      const colors = ['#f2d74e', '#95c3de', '#ff9a91', '#22b14c', '#a0e8af'];
-      
-      for (let i = 0; i < 50; i++) {
-        const confetti = document.createElement('div');
-        confetti.classList.add('confetti');
-        
-        // Zufällige Position, Farbe und Verzögerung
-        confetti.style.left = Math.random() * 100 + 'vw';
-        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.animationDelay = Math.random() * 2 + 's';
-        
-        container.appendChild(confetti);
-      }
-    }
-    window.onload = createConfetti; // Animation beim Laden starten
+    // Konfetti-Effekt beim Laden der Seite
+    window.addEventListener('load', () => {
+      const duration = 2.5 * 1000;
+      const animationEnd = Date.now() + duration;
 
-    // 3. Bibelvers Logik
-    const verseListe = [
-      { text: "Gott ist unsere Zuflucht und Stärke, ein geprüfter Helfer in Zeiten der Not.", ref: "Psalm 46,2" },
-      { text: "Denn ich weiß wohl, was für Gedanken ich über euch habe, spricht der HERR: Gedanken des Friedens und nicht des Leides.", ref: "Jeremia 29,11" },
-      { text: "Der HERR ist mein Hirte, mir wird nichts mangeln.", ref: "Psalm 23,1" },
-      { text: "Alle eure Dinge lasst in der Liebe geschehen!", ref: "1. Korinther 16,14" },
-      { text: "Sei getrost und unverzagt! Lass dir nicht grauen und entsetze dich nicht; denn der HERR, dein Gott, ist mit dir in allem, was du tun wirst.", ref: "Joshua 1,9" },
-      { text: "Die Freude am HERRN ist eure Stärke.", ref: "Nehemia 8,10" },
-      { text: "Ein neues Gebot gebe ich euch, dass ihr euch untereinander liebt, wie ich euch geliebt habe.", ref: "Johannes 13,34" },
-      { text: "Befiehl dem HERRN deine Wege und hoffe auf ihn, er wird's wohlmachen.", ref: "Psalm 37,5" }
-    ];
+      (function frame() {
+        confetti({
+          particleCount: 3,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+          colors: ['#3498db', '#a8e6cf', '#ffd3b6']
+        });
+        confetti({
+          particleCount: 3,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+          colors: ['#3498db', '#a8e6cf', '#ffd3b6']
+        });
 
-    function neuerVers() {
-      const zufall = Math.floor(Math.random() * verseListe.length);
-      document.getElementById('verse').innerText = '"' + verseListe[zufall].text + '"';
-      document.getElementById('ref').innerText = verseListe[zufall].ref;
-    }
+        if (Date.now() < animationEnd) {
+          requestAnimationFrame(frame);
+        }
+      }());
+    });
   </script>
 
 </body>
